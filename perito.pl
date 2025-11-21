@@ -9,7 +9,7 @@ perito :-
     write('****************************************************************'), nl,
     write('                UNIVERSIDADE DA BEIRA INTERIOR                  '), nl,
     write('----------------------------------------------------------------'), nl,
-    write('         SISTEMA PERICIAL - UBI OBJETOS DO SISTEMA SOLAR        '), nl,
+    write('           SISTEMA PERICIAL - OBJETOS DO SISTEMA SOLAR          '), nl,
     write('----------------------------------------------------------------'), nl,
     write('  Feito por:  Adriana Abreu (53672)                             '), nl,
     write('              Leonor Rebola (53663)                             '), nl,
