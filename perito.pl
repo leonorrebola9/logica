@@ -24,6 +24,7 @@ perito :-
 % -------------------------------
 % MENU DE COMANDOS
 % -------------------------------
+
 esperaOrdens(MC) :-
     mostraComandos(MC),
     write('> '),
@@ -44,6 +45,7 @@ mostraComandos(23) :-
 % -------------------------------
 % EXECUÇÃO DE COMANDOS
 % -------------------------------
+
 executa(_, 1) :-
     write('Nome da BC: '),
     read(F),
@@ -71,6 +73,7 @@ continua :-
 % -------------------------------
 % SOLUCIONAR (fluxo principal)
 % -------------------------------
+
 soluciona :-
     retractall(conhece(_,_,_)),
     pergunta_tipo_objetivo(Tipo),
@@ -83,13 +86,14 @@ soluciona :-
 % -------------------------------
 % PERGUNTAS GENÉRICAS
 % -------------------------------
+
 pergunta_tipo_objetivo(Tipo) :-
     questiona(tipo_objetivo, Tipo, [planeta, lua, asteroide]),
     asserta(conhece(sim, tipo_objetivo, Tipo)).
 
-% Pergunta com opções
 questiona(Atr, Val, _) :-
     conhece(sim, Atr, Val), !.
+
 questiona(Atr, Val, Lista) :-
     write('Qual o valor para '), write(Atr), write('?'), nl,
     write('Opcoes: '), write(Lista), nl,
@@ -100,9 +104,9 @@ questiona(Atr, Val, Lista) :-
       questiona(Atr, Val, Lista)
     ).
 
-% Pergunta binária (sim/nao)
 questiona_binario(Atr, Val) :-
     conhece(sim, Atr, Val), !.
+
 questiona_binario(Atr, Val) :-
     write(Atr), write('? (sim/nao)'), nl,
     read(R),
@@ -112,16 +116,72 @@ questiona_binario(Atr, Val) :-
       questiona_binario(Atr, Val)
     ).
 
+% Pergunta adicional para órbita das luas
+questiona_orbita(Atr, Val) :-
+    conhece(sim, Atr, Val), !.
+questiona_orbita(Atr, Val) :-
+    write('Qual a orbita? (interna/media/externa)'), nl,
+    read(X),
+    ( member(X, [interna, media, externa]) ->
+        asserta(conhece(sim, Atr, X)), Val = X
+    ; write(X), write(' nao e valor aceite!'), nl,
+      questiona_orbita(Atr, Val)
+    ).
+
+
+
+questiona_posicao_orbital(Atr, Val) :-
+    conhece(sim, Atr, Val), !.
+questiona_posicao_orbital(Atr, Val) :-
+    write('Qual a posicao orbital? (interna/central_interna/central_externa/externa)'), nl,
+    read(X),
+    ( member(X, [interna, central_interna, central_externa, externa]) ->
+        asserta(conhece(sim, Atr, X)), Val = X
+    ; write(X), write(' nao e valor aceite!'), nl,
+      questiona_posicao_orbital(Atr, Val)
+    ).
+
+questiona_lado_orbital(Atr, Val) :-
+    conhece(sim, Atr, Val), !.
+questiona_lado_orbital(Atr, Val) :-
+    write('Qual o lado orbital? (lado_interno/lado_externo)'), nl,
+    read(X),
+    ( member(X, [lado_interno, lado_externo]) ->
+        asserta(conhece(sim, Atr, X)), Val = X
+    ; write(X), write(' nao e valor aceite!'), nl,
+      questiona_lado_orbital(Atr, Val)
+    ).
+
+% -------------------------------
+% Pergunta sobre a cor da superfície
+% -------------------------------
+questiona_cor_superficie(Atr, Val) :-
+    conhece(sim, Atr, Val), !.  % Se já sabemos, não pergunta novamente
+
+questiona_cor_superficie(Atr, Val) :-
+    write('Qual a cor da superficie? (amarela/branca/cinza/escura)'), nl,
+    read(X),
+    ( member(X, [amarela, branca, cinza, escura]) ->
+        asserta(conhece(sim, Atr, X)),
+        Val = X
+    ; write(X), write(' nao e valor aceite!'), nl,
+      questiona_cor_superficie(Atr, Val)
+    ).
+
+
+
 % -------------------------------
 % PLANETAS
 % -------------------------------
+
 deduz_planeta :-
     questiona(tipo, Tipo, [rochoso, gasoso]),
     ( Tipo = rochoso -> deduz_planeta_rochoso
     ; Tipo = gasoso  -> deduz_planeta_gasoso
     ),
     ( planeta(P) -> write('Planeta encontrado: '), write(P), nl
-    ; write('Nao foi encontrado planeta correspondente.'), nl ).
+    ; write('Nao foi encontrado planeta correspondente.'), nl
+    ).
 
 deduz_planeta_rochoso :-
     questiona(luas, Luas, [nenhuma, uma, duas]),
@@ -136,20 +196,54 @@ deduz_planeta_gasoso :-
 % -------------------------------
 % LUAS
 % -------------------------------
+
 deduz_lua :-
-    questiona(planeta_de, Planeta, [terra, jupiter, saturno, urano, marte, neptuno]),
-    ( Planeta = jupiter   -> questiona(cor_superficie, _, [colorida, branca, escura])
-    ; Planeta = saturno   -> questiona(superficie, _, [gelada, porosa, bicolor])
-    ; Planeta = urano     -> questiona(brilho, _, [mais, menos])
-    ; Planeta = marte     -> questiona(crateras, _, [muitas, poucas])
-    ; Planeta = neptuno   -> questiona(tamanho_lua, _, [grande, pequena])
-    ; true ),
-    ( lua(L) -> write('Lua encontrada: '), write(L), nl
-    ; write('Nao foi encontrada lua correspondente.'), nl ).
+    % Perguntas gerais
+    questiona(planeta_de, Planeta, [terra, marte, jupiter, saturno, urano, neptuno]),
+    questiona(tamanho_lua, Tamanho, [grande, media, pequena]),
+    questiona(tipo_lua, _, [regular, irregular]),
+    questiona_orbita(orbita, _),
+
+    % Perguntas específicas por planeta e tamanho
+    ( Planeta = saturno, (Tamanho = pequena ; Tamanho = media) ->
+        % Pequenas e medias de Saturno usam posição orbital
+        questiona_posicao_orbital(posicao_orbital, _),
+        % Somente pequenas externas de Saturno usam lado_orbital
+        ( Tamanho = pequena, conhece(sim, orbita, externa) ->
+            questiona_lado_orbital(lado_orbital, _)
+        ; true )
+    ; true
+    ),
+
+    ( Planeta = jupiter, Tamanho = pequena ->
+        % Pequenas de Júpiter usam posição orbital
+        questiona_posicao_orbital(posicao_orbital, _)
+    ; true
+    ),
+
+    ( Planeta = urano, Tamanho = pequena ->
+        % Pequenas de Urano usam posição orbital para diferenciar
+        questiona_posicao_orbital(posicao_orbital, _)
+    ; true
+    ),
+
+    % Deduz lua a partir das características conhecidas
+    ( lua(L) ->
+        write('Lua encontrada: '), write(L), nl
+    ; write('Nao foi encontrada lua correspondente.'), nl
+    ).
+
+
+
+
+
+
+
 
 % -------------------------------
 % ASTEROIDES
 % -------------------------------
+
 deduz_asteroide :-
     questiona(tipo_asteroide, Tipo, [planeta_anao, metalico, tipo_b, tipo_c, tipo_s]),
     ( Tipo = planeta_anao -> questiona(tamanho_asteroide, _, [grande, pequeno])
@@ -159,4 +253,5 @@ deduz_asteroide :-
     ; Tipo = tipo_s       -> questiona_binario(proximo_terra, _)
     ),
     ( asteroide(A) -> write('Asteroide encontrado: '), write(A), nl
-    ; write('Nao foi encontrado asteroide correspondente.'), nl ).
+    ; write('Nao foi encontrado asteroide correspondente.'), nl
+    ).
