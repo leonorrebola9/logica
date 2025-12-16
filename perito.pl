@@ -100,55 +100,140 @@ questiona_lado_orbital(Atr, Val) :-
 questiona_cor_superficie(Atr, Val) :-
     questiona(Atr, Val, [amarela, branca, cinza, escura]).
 
+
+nao_perguntar_mais :-
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, tamanho_lua, grande),
+    conhece(sim, tipo_lua, irregular).
+
+nao_perguntar_mais :-
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, tamanho_lua, media),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, orbita, interna).  % Mimas
+
+% Neptuno - medias regulares (não faz perguntas extra)
+nao_perguntar_mais :-
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, tamanho_lua, media),
+    conhece(sim, tipo_lua, regular).
+
+% Urano - medias regulares (não faz perguntas extra)
+nao_perguntar_mais :-
+    conhece(sim, planeta_de, urano),
+    conhece(sim, tamanho_lua, media),
+    conhece(sim, tipo_lua, regular).
+
+
 % ------------------------------------------------------------
 % VALIDACOES
 % ------------------------------------------------------------
 
 valida_lua :-
-    conhece(sim, planeta_de, saturno),
-    conhece(sim, tipo_lua, irregular),
-    conhece(sim, tamanho_lua, T),
-    T \= pequena,
-    write('Erro: Saturno so tem luas irregulares pequenas.'), nl,
-    fail.
+    conhece(sim, planeta_de, terra),
+    conhece(sim, tamanho_lua, grande),
+    !, fail.
 
-valida_lua :- true.
+valida_lua :-
+    conhece(sim, planeta_de, terra),
+    conhece(sim, tamanho_lua, media),
+    !, fail.
+
+valida_lua :-
+    true.
+
 
 % ------------------------------------------------------------
 % DEDUCAO DE LUA
 % ------------------------------------------------------------
 
+% Define casos em que não devemos fazer mais perguntas
+
 deduz_lua :-
+    % Perguntas iniciais obrigatórias
     questiona(planeta_de, _, [terra, marte, jupiter, saturno, urano, neptuno]),
     questiona(tamanho_lua, _, [grande, media, pequena]),
     questiona(tipo_lua, _, [regular, irregular]),
 
     valida_lua,
 
-    ( conhece(sim, tamanho_lua, pequena)
-    ; conhece(sim, tamanho_lua, media)
-    ),
-    questiona_orbita(orbita, _),
+    % Perguntar órbita apenas quando faz sentido e não estiver bloqueado
+    ( \+ nao_perguntar_mais,
+      (conhece(sim, tamanho_lua, pequena);
+       conhece(sim, tamanho_lua, media);
+       conhece(sim, tamanho_lua, grande)) ->
+        questiona_orbita(orbita, _)
+    ; true ),
 
-    ( conhece(sim, tipo_lua, irregular) ->
+    % Luas irregulares: sentido orbital + cor (exceto grandes irregulares de Neptuno)
+    ( \+ nao_perguntar_mais,
+      conhece(sim, tipo_lua, irregular),
+      \+ (conhece(sim, planeta_de, neptuno), conhece(sim, tamanho_lua, grande)) ->
         questiona_sentido(sentido_orbital, _),
         questiona_cor_superficie(cor_superficie, _)
     ; true ),
 
-    ( conhece(sim, planeta_de, saturno),
+    % Saturno – pequenas regulares: posição orbital
+    ( \+ nao_perguntar_mais,
+      conhece(sim, planeta_de, saturno),
       conhece(sim, tamanho_lua, pequena),
       conhece(sim, tipo_lua, regular) ->
         questiona_posicao_orbital(posicao_orbital, _)
     ; true ),
 
-    ( conhece(sim, planeta_de, saturno),
+    % Saturno – medias regulares: posição orbital
+    ( \+ nao_perguntar_mais,
+      conhece(sim, planeta_de, saturno),
+      conhece(sim, tamanho_lua, media),
+      conhece(sim, tipo_lua, regular) ->
+        questiona_posicao_orbital(posicao_orbital, _)
+    ; true ),
+
+    % Saturno – pequenas regulares externas: lado orbital
+    ( \+ nao_perguntar_mais,
+      conhece(sim, planeta_de, saturno),
       conhece(sim, tamanho_lua, pequena),
       conhece(sim, tipo_lua, regular),
       conhece(sim, orbita, externa) ->
         questiona_lado_orbital(lado_orbital, _)
     ; true ),
 
+    % Júpiter – grandes regulares (luas galileanas): cor da superfície
+    ( \+ nao_perguntar_mais,
+      conhece(sim, planeta_de, jupiter),
+      conhece(sim, tamanho_lua, grande),
+      conhece(sim, tipo_lua, regular) ->
+        questiona_cor_superficie(cor_superficie, _)
+    ; true ),
+
+    % Urano – grandes regulares: posição orbital
+    ( \+ nao_perguntar_mais,
+      conhece(sim, planeta_de, urano),
+      conhece(sim, tamanho_lua, grande),
+      conhece(sim, tipo_lua, regular) ->
+        questiona_posicao_orbital(posicao_orbital, _)
+    ; true ),
+
+    % Neptuno – medias regulares: posição orbital
+    ( \+ nao_perguntar_mais,
+      conhece(sim, planeta_de, neptuno),
+      conhece(sim, tamanho_lua, media),
+      conhece(sim, tipo_lua, regular) ->
+        questiona_posicao_orbital(posicao_orbital, _)
+    ; true ),
+
+    % Júpiter – pequenas regulares: posição orbital
+    ( \+ nao_perguntar_mais,
+    conhece(sim, planeta_de, jupiter),
+      conhece(sim, tamanho_lua, pequena),
+      conhece(sim, tipo_lua, regular) ->
+        questiona_posicao_orbital(posicao_orbital, _)
+    ; true ),
+
+    % Resultado final
     ( lua(L) ->
         write('Lua encontrada: '), write(L), nl
     ; write('Nenhuma lua encontrada.'), nl
     ).
+
+

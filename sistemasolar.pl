@@ -40,27 +40,32 @@ lua(calisto) :-
 lua(tita) :-
     conhece(sim, planeta_de, saturno),
     conhece(sim, tamanho_lua, grande),
-    conhece(sim, tipo_lua, regular).
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, orbita, externa).
+
+lua(encelado) :-
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, tamanho_lua, grande),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, orbita, interna).
 
 lua(titania) :-
     conhece(sim, planeta_de, urano),
     conhece(sim, tamanho_lua, grande),
-    conhece(sim, tipo_lua, regular).
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, posicao_orbital, interna).
 
 lua(oberon) :-
     conhece(sim, planeta_de, urano),
     conhece(sim, tamanho_lua, grande),
-    conhece(sim, tipo_lua, regular).
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, posicao_orbital, externa).
+
 
 lua(tritao) :-
     conhece(sim, planeta_de, neptuno),
     conhece(sim, tamanho_lua, grande),
     conhece(sim, tipo_lua, irregular).
-
-lua(encelado) :-
-    conhece(sim, planeta_de, saturno),
-    conhece(sim, tamanho_lua, grande),
-    conhece(sim, tipo_lua, regular).
 
 % -------------------------------
 % LUAS MÉDIAS REGULARES
@@ -72,12 +77,7 @@ lua(mimas) :-
     conhece(sim, tipo_lua, regular),
     conhece(sim, orbita, interna).
 
-lua(tetis) :-
-    conhece(sim, planeta_de, saturno),
-    conhece(sim, tamanho_lua, media),
-    conhece(sim, tipo_lua, regular),
-    conhece(sim, orbita, media),
-    conhece(sim, posicao_orbital, interna).
+
 
 lua(dione) :-
     conhece(sim, planeta_de, saturno),
