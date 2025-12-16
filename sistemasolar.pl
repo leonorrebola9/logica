@@ -370,53 +370,300 @@ lua(mab) :-
     conhece(sim, orbita, externa),
     conhece(sim, posicao_orbital, externa).
 
-
-lua(L) :-
+% Pequenas luas regulares de Neptuno
+lua(naiade) :-
     conhece(sim, tamanho_lua, pequena),
     conhece(sim, tipo_lua, regular),
     conhece(sim, planeta_de, neptuno),
-    member(L, [
-        naiade, talassa, despina, galateia, larissa, hipocampo
-    ]).
+    conhece(sim, orbita, interna).
+
+lua(talassa) :-
+    conhece(sim, tamanho_lua, pequena),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, orbita, interna),
+    conhece(sim, posicao_orbital, central).
+
+lua(despina) :-
+    conhece(sim, tamanho_lua, pequena),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, orbita, media).
+
+lua(galateia) :-
+    conhece(sim, tamanho_lua, pequena),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, orbita, media),
+    conhece(sim, posicao_orbital, central).
+
+lua(larissa) :-
+    conhece(sim, tamanho_lua, pequena),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, orbita, externa).
+
+lua(hipocampo) :-
+    conhece(sim, tamanho_lua, pequena),
+    conhece(sim, tipo_lua, regular),
+    conhece(sim, planeta_de, neptuno),
+    conhece(sim, orbita, externa),
+    conhece(sim, posicao_orbital, central).
+
 
 % -------------------------------
 % LUAS IRREGULARES
 % -------------------------------
 
-lua(L) :-
+
+% Luas de Jupiter
+lua(himalia) :-
     conhece(sim, tipo_lua, irregular),
     conhece(sim, planeta_de, jupiter),
-    member(L, [
-        himalia, elara, lysithea, leda, ananke, harpalyke,
-        praxidike, carme, taygete, kalyke, pasifae, sinope,
-        callirrhoe, themisto, megaclite
-    ]).
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, cinzenta).
 
-lua(L) :-
+lua(elara) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(lysithea) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(leda) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(ananke) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(harpalyke) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(praxidike) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(carme) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(taygete) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(kalyke) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(pasifae) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(sinope) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(callirrhoe) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(themisto) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(megaclite) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, jupiter),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+
+
+% Luas de Saturno
+lua(kiviuq) :-
     conhece(sim, tipo_lua, irregular),
     conhece(sim, planeta_de, saturno),
-    member(L, [
-        kiviuq, ijiraq, paaliaq, albiorix, bebionn,
-        phoebe, skathi, ymir, suttungr, thrymr,
-        hati, tarvos, erriapo, fornjot, kari
-    ]).
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, cinzenta).
 
-lua(L) :-
+lua(ijiraq) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(paaliaq) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, progrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(albiorix) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(bebionn) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(phoebe) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(skathi) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(ymir) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(suttungr) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(thrymr) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(hati) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(tarvos) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(erriapo) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
+
+lua(fornjot) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(kari) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, saturno),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+
+
+% Luas de Urano
+lua(sycorax) :-
     conhece(sim, tipo_lua, irregular),
     conhece(sim, planeta_de, urano),
-    member(L, [sycorax, caliban, prospero, setebos, stephano]).
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
 
+lua(caliban) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, urano),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
 
-% -------------------------------
-% ASTEROIDES
-% -------------------------------
-asteroide(plutao)    :- conhece(sim,tipo_asteroide,planeta_anao), conhece(sim,tamanho_asteroide,grande).
-asteroide(ceres)     :- conhece(sim,tipo_asteroide,planeta_anao), conhece(sim,tamanho_asteroide,pequeno).
-asteroide(psyche)    :- conhece(sim,tipo_asteroide,metalico), conhece(sim,tem_luas,nao).
-asteroide(kleopatra) :- conhece(sim,tipo_asteroide,metalico), conhece(sim,tem_luas,sim).
-asteroide(pallas)    :- conhece(sim,tipo_asteroide,tipo_b), conhece(sim,proximo_terra,nao).
-asteroide(paethon)   :- conhece(sim,tipo_asteroide,tipo_b), conhece(sim,proximo_terra,sim).
-asteroide(ryugu)     :- conhece(sim,tipo_asteroide,tipo_c), conhece(sim,tamanho_asteroide,pequeno).
-asteroide(mathilde)  :- conhece(sim,tipo_asteroide,tipo_c), conhece(sim,tamanho_asteroide,grande).
-asteroide(annefrank) :- conhece(sim,tipo_asteroide,tipo_s), conhece(sim,proximo_terra,nao).
-asteroide(amor)      :- conhece(sim,tipo_asteroide,tipo_s), conhece(sim,proximo_terra,sim).
+lua(prospero) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, urano),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, avermelhada).
+
+lua(setebos) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, urano),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, escura).
+
+lua(stephano) :-
+    conhece(sim, tipo_lua, irregular),
+    conhece(sim, planeta_de, urano),
+    conhece(sim, orbita, externa),
+    conhece(sim, sentido_orbital, retrogrado),
+    conhece(sim, cor_superficie, cinzenta).
