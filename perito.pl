@@ -65,7 +65,6 @@ soluciona :-
     questiona(tipo_objetivo, Tipo, [planeta, lua]),
     ( Tipo = lua       -> deduz_lua
     ; Tipo = planeta   -> write('Planetas nao implementados.'), nl
-    ; Tipo = asteroide -> write('Asteroides nao implementados.'), nl
     ).
 
 % ------------------------------------------------------------
